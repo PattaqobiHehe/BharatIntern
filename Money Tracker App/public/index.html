@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body style="background-color: rgb(34, 33, 33);">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3>Money Tracker App</h3>
+            </div>
+            <div class="card-body">
+                <form id="expenseForm">
+                    <div class="form-group">
+                        <label for="category_select">Category</label>
+                        <select class="form-control" id="category_select" name="category_select">
+                            <option>Groceries</option>
+                            <option>Restaurant</option>
+                            <option>Rent</option>
+                            <option>Income tax</option>
+                            <option>Social security</option>
+                            <option>Utilities</option>
+                            <option>Food</option>
+                            <option>Shopping</option>
+                            <option>Clothes</option>
+                            <option>Vacation</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="other_reason_group" style="display: none;">
+                        <label for="other_reason">Please specify</label>
+                        <input type="text" class="form-control" id="other_reason" name="other_reason">
+                    </div>
+                    <div class="form-group">
+                        <label for="amount_input">Amount</label>
+                        <input type="number" class="form-control" id="amount_input" name="amount_input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_input">Date</label>
+                        <input type="date" class="form-control" id="date_input" name="date_input" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Expense</button>
+                </form>
+                <br>
+                <a href="/expenses" class="btn btn-secondary">View All Expenses</a>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap and jQuery JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#category_select').on('change', function() {
+                if ($(this).val() === 'Other') {
+                    $('#other_reason_group').show();
+                } else {
+                    $('#other_reason_group').hide();
+                }
+            });
+
+            $('#expenseForm').on('submit', function(e) {
+                e.preventDefault();
+                console.log("Form submitted");  // Add this line to debug
+                var formData = {
+                    category_select: $('#category_select').val(),
+                    amount_input: $('#amount_input').val(),
+                    date_input: $('#date_input').val(),
+                    other_reason: $('#other_reason').val() // Include the other_reason field
+                };
+                console.log("Form data:", formData);  // Add this line to debug
+                $.ajax({
+                    type: 'POST',
+                    url: '/add',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        console.log("Response from server:", response);  // Add this line to debug
+                        alert('Expense added successfully!');
+                    },
+                    error: function(error) {
+                        console.error("Error from server:", error);  // Add this line to debug
+                        alert('Error adding expense');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
