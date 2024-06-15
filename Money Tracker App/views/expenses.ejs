@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Expenses</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: rgb(34, 33, 33);">
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h3>All Expenses</h3>
+            </div>
+            <div class="card-body">
+                <a href="/" class="btn btn-primary mb-3">Add New Expense</a>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Other Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% expenses.forEach(expense => { %>
+                            <tr>
+                                <td><%= expense.category %></td>
+                                <td><%= expense.amount %></td>
+                                <td><%= new Date(expense.date).toLocaleDateString() %></td>
+                                <td><%= expense.other_reason %></td>
+                            </tr>
+                        <% }) %>                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
